@@ -206,6 +206,7 @@ shared_ptr<Data>
 ContentStoreImpl<Policy>::Lookup(shared_ptr<const Interest> interest)
 {
   NS_LOG_FUNCTION(this << interest->getName());
+  std::cout << "ContentStoreImpl::Lookup interest=" << interest->getName() << "\n";
 
   typename super::const_iterator node;
   if (interest->getExclude().empty()) {
