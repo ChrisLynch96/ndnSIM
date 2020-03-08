@@ -84,6 +84,7 @@ AppLinkService::onReceiveInterest(const Interest& interest)
 void
 AppLinkService::onReceiveData(const Data& data)
 {
+  std::cout << "AppLinkService::onReceiveData data:" << data.getName() << "\n";
   this->receiveData(data);
 }
 

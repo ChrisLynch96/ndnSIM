@@ -112,7 +112,7 @@ protected:
   ScheduleNextPacket() = 0;
 
   /**
-   * \brief Checks if the packet need to be retransmitted becuase of retransmission timer expiration
+   * \brief Checks if the packet need to be retransmitted because of retransmission timer expiration
    */
   void
   CheckRetxTimeout();
