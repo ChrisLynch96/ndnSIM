@@ -218,12 +218,14 @@ ContentStoreImpl<Policy>::Lookup(shared_ptr<const Interest> interest)
   }
 
   if (node != this->end()) {
+    std::cout << "ContentStoreImpl::Lookup found matching data...\n";
     this->m_cacheHitsTrace(interest, node->payload()->GetData());
 
     shared_ptr<Data> copy = make_shared<Data>(*node->payload()->GetData());
     return copy;
   }
   else {
+    std::cout << "ContentStoreImpl::Lookup did NOT find matching data...\n";
     this->m_cacheMissesTrace(interest);
     return 0;
   }
