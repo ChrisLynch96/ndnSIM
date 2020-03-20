@@ -180,7 +180,6 @@ public:
 
     // guard in case we don't have anything in the trie
     if (lastItem == trie_.end()){
-      std::cout << "deepest_prefix_match nothing in the tree\n";
       return trie_.end();
     }
 
@@ -189,11 +188,9 @@ public:
         foundItem = lastItem->find(); // should be something
       }
       policy_.lookup(s_iterator_to(foundItem));
-      std::cout << "deepest_prefix_match found something in the cache\n";
       return foundItem;
     }
     else { // couldn't find a node that has prefix at least as key
-      std::cout << "deepest_prefix_match couldn't find a node that has prefix at least as key\n";
       return trie_.end();
     }
   }

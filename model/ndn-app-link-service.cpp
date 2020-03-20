@@ -78,14 +78,12 @@ AppLinkService::doSendNack(const lp::Nack& nack)
 void
 AppLinkService::onReceiveInterest(const Interest& interest)
 {
-  std::cout << "AppLinkService::onReceiveInterest interest=" << interest.getName() << "\n";
   this->receiveInterest(interest);
 }
 
 void
 AppLinkService::onReceiveData(const Data& data)
 {
-  std::cout << "AppLinkService::onReceiveData data:" << data.getName() << "\n";
   this->receiveData(data);
 }
 

@@ -103,7 +103,7 @@ ContentStoreWithFreshness<Policy>::Add(shared_ptr<const Data> data)
   if (!ok)
     return false;
 
-  NS_LOG_DEBUG(data->getName() << " added to cache");
+  NS_LOG_DEBUG(data->getName() << " added to cache... calling RescheduleCleaning now");
   RescheduleCleaning();
   return true;
 }
@@ -115,6 +115,7 @@ ContentStoreWithFreshness<Policy>::RescheduleCleaning()
   const freshness_policy_container& freshness =
     this->getPolicy().template get<freshness_policy_container>();
 
+  NS_LOG_DEBUG("freshness size: " << freshness.size());
   if (freshness.size() > 0) {
     Time nextStateTime =
       freshness_policy_container::policy_base::get_freshness(&(*freshness.begin()));
@@ -126,7 +127,7 @@ ContentStoreWithFreshness<Policy>::RescheduleCleaning()
         Simulator::Remove(m_cleanEvent); // just canceling would not clean up list of events
       }
 
-      // NS_LOG_DEBUG ("Next event in: " << (nextStateTime - Now ()).ToDouble (Time::S) << "s");
+      NS_LOG_DEBUG ("Next event in: " << (nextStateTime - Now ()).ToDouble (Time::S) << "s");
       m_cleanEvent = Simulator::Schedule(nextStateTime - Now(),
                                          &ContentStoreWithFreshness<Policy>::CleanExpired, this);
       m_scheduledCleaningTime = nextStateTime;
@@ -146,8 +147,7 @@ ContentStoreWithFreshness<Policy>::CleanExpired()
   freshness_policy_container& freshness =
     this->getPolicy().template get<freshness_policy_container>();
 
-  // NS_LOG_LOGIC (">> Cleaning: Total number of items:" << this->getPolicy ().size () << ", items
-  // with freshness: " << freshness.size ());
+  NS_LOG_LOGIC (">> Cleaning: Total number of items:" << this->getPolicy ().size () << ", items with freshness: " << freshness.size ());
   Time now = Simulator::Now();
 
   while (!freshness.empty()) {
@@ -161,8 +161,7 @@ ContentStoreWithFreshness<Policy>::CleanExpired()
     else
       break; // nothing else to do. All later records will not be stale
   }
-  // NS_LOG_LOGIC ("<< Cleaning: Total number of items:" << this->getPolicy ().size () << ", items
-  // with freshness: " << freshness.size ());
+  NS_LOG_LOGIC ("<< Cleaning: Total number of items:" << this->getPolicy ().size () << ", items with freshness: " << freshness.size ());
 
   m_scheduledCleaningTime = Time();
   RescheduleCleaning();
